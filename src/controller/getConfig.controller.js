@@ -2,7 +2,7 @@ const ConfigService = require('../service/menuConfig.service');
 
 class ConfigController {
   async config(ctx, next) {
-    const { account } = ctx.request.body;
+    const { account } = ctx.query;
 
     const res = await ConfigService.getAllconfig(account);
 

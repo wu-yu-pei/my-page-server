@@ -1,8 +1,8 @@
 const Koa = require('koa');
 const path = require('path');
 const static = require('koa-static');
-const bodyParser = require('koa-bodyparser');
 const koaBody = require('koa-body');
+const cors = require('cors');
 
 const app = new Koa();
 
@@ -17,8 +17,8 @@ const uploadRouter = require('../router/upload.router');
 const captchaRouter = require('../router/captcha.router');
 
 // middlire
-app.use(bodyParser());
 app.use(static(path.resolve(__dirname, '../../static/upload')));
+app.use(cors());
 app.use(
   koaBody({
     // 支持文件格式
