@@ -1,4 +1,4 @@
-const PORT = 8888;
+const PORT = 7777;
 
 // mysql
 const DB = 'my-page-dataBase';
