@@ -21,6 +21,10 @@ User.init(
       type: DataTypes.CHAR,
       allowNull: false,
     },
+    userimg: {
+      type: DataTypes.CHAR,
+      defaultValue: 'http://wuyupei.top:8888/upload/user.jpg',
+    },
     mail: {
       type: DataTypes.CHAR,
       allowNull: false,
