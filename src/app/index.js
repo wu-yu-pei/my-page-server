@@ -2,7 +2,7 @@ const Koa = require('koa');
 const path = require('path');
 const static = require('koa-static');
 const koaBody = require('koa-body');
-const cors = require('cors');
+const cors = require('koa-cors');
 
 const app = new Koa();
 
@@ -17,8 +17,8 @@ const uploadRouter = require('../router/upload.router');
 const captchaRouter = require('../router/captcha.router');
 
 // middlire
-app.use(static(path.resolve(__dirname, '../../static/upload')));
 app.use(cors());
+app.use(static(path.resolve(__dirname, '../../static')));
 app.use(
   koaBody({
     // 支持文件格式
@@ -31,7 +31,6 @@ app.use(
     },
   })
 );
-
 // use router
 app.use(hiRouter.routes());
 app.use(regesterRouter.routes());
