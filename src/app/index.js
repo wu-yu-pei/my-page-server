@@ -12,6 +12,7 @@ const app = new Koa();
 // router
 const hiRouter = require('../router/hi.router');
 const uploadRouter = require('../router/upload.router');
+const keyWordRouter = require('../router/keyWord.router');
 // const regesterRouter = require('../router/register.router');
 // const loginRouter = require('../router/login.router');
 // const configRouter = require('../router/Config.router');
@@ -35,6 +36,7 @@ app.use(
 // use router
 app.use(hiRouter.routes());
 app.use(uploadRouter.routes());
+app.use(keyWordRouter.routes())
 // app.use(regesterRouter.routes());
 // app.use(loginRouter.routes());
 // app.use(configRouter.routes());
