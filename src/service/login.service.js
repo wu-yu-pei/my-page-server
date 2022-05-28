@@ -1,9 +1,11 @@
 const { APPID, SECRE } = require('../config/index')
 const { getAccess_token } = require('../api/index')
-const parseString = require('xml2js').parseString;
+const parseStringPromise = require('xml2js').parseStringPromise;
 const axios = require('axios')
 const redis = require('../database/redis')
 const User = require('../module/user.module')
+const UserConfig = require('../module/config.module')
+const { menuConfig } = require('../config/client')
 
 class loginService {
   constructor() { }
@@ -69,7 +71,7 @@ class loginService {
     let message = ''
 
 
-    const textMesg = async (from, to, text) => {
+    const textMesg = (from, to, text) => {
       return `<xml>
                 <ToUserName><![CDATA[${from}]]></ToUserName>
                 <FromUserName><![CDATA[${to}]]></FromUserName>
@@ -79,46 +81,89 @@ class loginService {
               </xml>`;
     };
 
-    parseString(xmlData, async (err, res) => {
-      const from = res.xml.FromUserName;
-      const to = res.xml.ToUserName;
-      const type = res.xml.Event[0]
-      const userName = res.xml.FromUserName[0]
-      const EventKey = res.xml.EventKey[0]
+    const res = await parseStringPromise(xmlData)
+
+    const from = res.xml.FromUserName;
+    const to = res.xml.ToUserName;
+    const type = res.xml.Event[0]
+    const userName = res.xml.FromUserName[0]
+    const EventKey = res.xml.EventKey[0]
 
 
-      // 注册
-      if (type === 'subscribe') {
-        console.log('关注了');
-        // 创建用户  到数据库
-        const user = {
-          openId: userName,
-          userImg: 'http://www.baidu.com',
-          userName: '微信用户' +userName.slice(0, 4)
-        }
-
-        await User.create(user)
-
-        // redis中存缓存
-        if (isNaN(Number(EventKey))) {
-          redis.set(EventKey.split('_')[1], user.openId, 'EX', 120)
-        } else {
-          redis.set(EventKey, user.openId, 'EX', 120)
-        }
-        message = textMesg(from, to, '感谢关注!')
+    // 注册
+    if (type === 'subscribe') {
+      console.log('关注了');
+      // 创建用户  到数据库
+      const user = {
+        openId: userName,
+        userImg: 'http://www.baidu.com',
+        userName: '微信用户' + userName.slice(0, 4)
       }
-      // 登录
-      if (type === 'SCAN') {
-        redis.set(EventKey, userName, 'EX', 120)
-        message = textMesg(from, to, '欢迎回来!')
+
+      const userConfig = {
+        openId: userName,
+        bgImage: 'http://127.0.0.1:8888/upload/default.jpg',
+        blur: '0',
+        redius: '0',
+        menu: menuConfig
       }
-      // 取关
-      if (type === 'unsubscribe') {
-        console.log('取关了,应该删除用户信息');
+
+      await User.create(user)
+
+
+      await UserConfig.create(userConfig)
+
+
+      // redis中存缓存
+      if (isNaN(Number(EventKey))) {
+        await redis.set(EventKey.split('_')[1], user.openId, 'EX', 120)
+      } else {
+        await redis.set(EventKey, user.openId, 'EX', 120)
       }
-    });
+
+      message = textMesg(from, to, '感谢关注!')
+    }
+    // 登录
+    if (type === 'SCAN') {
+      await redis.set(EventKey, userName, 'EX', 120)
+      message = textMesg(from, to, '欢迎回来!')
+    }
+    // 取关
+    if (type === 'unsubscribe') {
+      console.log('取关了,应该删除用户信息');
+      message = '取关了'
+    }
+
 
     return message
+  }
+
+  async userInfo(userid) {
+    let user = await User.findOne({
+      where: {
+        openId: userid
+      }
+    })
+    let config = await UserConfig.findOne({
+      where: {
+        openId: userid
+      }
+    })
+    return {
+      ...user.dataValues,
+      ...config.dataValues
+    }
+  }
+
+  async beifen(data) {
+    let res = await UserConfig.update({
+      'menu': JSON.parse(data.menu), 'blur': data.blur, 'bgImage': data.bgImage, 'redius': data.redius
+    }, {
+      where: {
+        openId: data.userId
+      }
+    })
+    return res
   }
 }
 

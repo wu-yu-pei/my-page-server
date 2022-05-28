@@ -22,6 +22,18 @@ class registerController {
 
     ctx.body = res
   }
+
+  async userInfo(ctx, next) {
+    const { userId } = ctx.request.query
+    const res = await loginService.userInfo(userId)
+    ctx.body = res
+  }
+
+  async beifen(ctx, next) {
+    const data = ctx.request.body
+    const res = await loginService.beifen(data)
+    ctx.body = res
+  }
 }
 
 module.exports = new registerController();

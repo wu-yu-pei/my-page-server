@@ -9,6 +9,10 @@ loginRouter.get('/qr', loginController.qr);
 
 loginRouter.get('/check', loginController.check);
 
+loginRouter.get('/userinfo', loginController.userInfo)
+
+loginRouter.post('/beifen', loginController.beifen)
+
 loginRouter.post('/', loginController.post)
 
 module.exports = loginRouter;
