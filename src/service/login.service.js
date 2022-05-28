@@ -1,6 +1,10 @@
 const { APPID, SECRE } = require('../config/index')
 const { getAccess_token } = require('../api/index')
+const parseString = require('xml2js').parseString;
 const axios = require('axios')
+const redis = require('../database/redis')
+const User = require('../module/user.module')
+
 class loginService {
   constructor() { }
   async login() {
@@ -19,11 +23,11 @@ class loginService {
         .post('https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=' + access_token,
           {
             action_name: 'QR_SCENE',
-            expire_seconds: 60,
+            expire_seconds: 120,
             action_info: {
               scene: {
                 scene_id,
-                scene_str: 'asdfasdf',
+                scene_str: 'my-page',
               },
             }
           }
@@ -40,14 +44,81 @@ class loginService {
     })
   }
 
-  async check() {
-    const { scene_id } = req.query
-    if (redis[scene_id]) {
-      let result = await getUserInfo(accessToken, redis[scene_id])
-      res.send(result)
+  async check(scene_id) {
+    const res = await redis.get(scene_id)
+    const userInfo = await User.findOne({
+      where: {
+        openId: res
+      }
+    })
+    if (res) {
+      return {
+        status: 1,
+        userInfo: userInfo
+      }
     } else {
-      res.send('error')
+      return {
+        status: 0
+      }
     }
+  }
+
+  async post(xml) {
+    const xmlData = String(xml);
+
+    let message = ''
+
+
+    const textMesg = async (from, to, text) => {
+      return `<xml>
+                <ToUserName><![CDATA[${from}]]></ToUserName>
+                <FromUserName><![CDATA[${to}]]></FromUserName>
+                <CreateTime>${+new Date()}</CreateTime>
+                <MsgType><![CDATA[text]]></MsgType>
+                <Content><![CDATA[${text}]]></Content>
+              </xml>`;
+    };
+
+    parseString(xmlData, async (err, res) => {
+      const from = res.xml.FromUserName;
+      const to = res.xml.ToUserName;
+      const type = res.xml.Event[0]
+      const userName = res.xml.FromUserName[0]
+      const EventKey = res.xml.EventKey[0]
+
+
+      // 注册
+      if (type === 'subscribe') {
+        console.log('关注了');
+        // 创建用户  到数据库
+        const user = {
+          openId: userName,
+          userImg: 'http://www.baidu.com',
+          userName: '微信用户' +userName.slice(0, 4)
+        }
+
+        await User.create(user)
+
+        // redis中存缓存
+        if (isNaN(Number(EventKey))) {
+          redis.set(EventKey.split('_')[1], user.openId, 'EX', 120)
+        } else {
+          redis.set(EventKey, user.openId, 'EX', 120)
+        }
+        message = textMesg(from, to, '感谢关注!')
+      }
+      // 登录
+      if (type === 'SCAN') {
+        redis.set(EventKey, userName, 'EX', 120)
+        message = textMesg(from, to, '欢迎回来!')
+      }
+      // 取关
+      if (type === 'unsubscribe') {
+        console.log('取关了,应该删除用户信息');
+      }
+    });
+
+    return message
   }
 }
 
