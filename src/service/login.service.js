@@ -96,13 +96,13 @@ class loginService {
       // 创建用户  到数据库
       const user = {
         openId: userName,
-        userImg: 'http://www.baidu.com',
+        userImg: 'http://wuyupei.top:8888/upload/user.jpg',
         userName: '微信用户' + userName.slice(0, 4)
       }
 
       const userConfig = {
         openId: userName,
-        bgImage: 'http://127.0.0.1:8888/upload/default.jpg',
+        bgImage: 'http://wuyupei.top:8888/upload/365ac23df2dc3e200a6a3ba00.jpg',
         blur: '0',
         redius: '0',
         menu: menuConfig
