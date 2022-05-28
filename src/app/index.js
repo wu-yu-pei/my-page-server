@@ -3,8 +3,25 @@ const path = require('path');
 const static = require('koa-static');
 const koaBody = require('koa-body');
 const cors = require('koa-cors');
+const http = require('http');
 
 const app = new Koa();
+const server = http.createServer(app.callback());
+
+const { Server } = require("socket.io");
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+    methods: ['GET', 'POST']
+  }
+});
+
+// socket.io
+io.on('connect', (socket) => {
+  socket.on('message', (data) => {
+    socket.broadcast.emit("guangbo", data);
+  })
+})
 
 // database
 const sequelize = require('../database/index');
@@ -43,7 +60,7 @@ app.use(loginRouter.routes());
 
 
 module.exports = function (port) {
-  app.listen(port, () => {
+  server.listen(port, () => {
     console.log('server is runing');
   });
 };
