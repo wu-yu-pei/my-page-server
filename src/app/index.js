@@ -7,16 +7,17 @@ const cors = require('koa-cors');
 const app = new Koa();
 
 // database
-// const sequelize = require('../database/index');
+const sequelize = require('../database/index');
+
+// redis
+const redis = require('../database/redis')
 
 // router
 const hiRouter = require('../router/hi.router');
 const uploadRouter = require('../router/upload.router');
-const keyWordRouter = require('../router/keyWord.router');
-// const regesterRouter = require('../router/register.router');
-// const loginRouter = require('../router/login.router');
-// const configRouter = require('../router/Config.router');
-// const captchaRouter = require('../router/captcha.router');
+const keyWordRouter = require('../router/keyword.router');
+const regesterRouter = require('../router/register.router');
+const loginRouter = require('../router/login.router');
 
 // middlire
 app.use(cors());
@@ -37,10 +38,9 @@ app.use(
 app.use(hiRouter.routes());
 app.use(uploadRouter.routes());
 app.use(keyWordRouter.routes())
-// app.use(regesterRouter.routes());
-// app.use(loginRouter.routes());
-// app.use(configRouter.routes());
-// app.use(captchaRouter.routes());
+app.use(regesterRouter.routes());
+app.use(loginRouter.routes());
+
 
 module.exports = function (port) {
   app.listen(port, () => {

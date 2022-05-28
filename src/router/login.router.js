@@ -5,4 +5,10 @@ const loginRouter = new koaRouter();
 
 loginRouter.post('/login', hasUserMiddleware, loginController.login);
 
+loginRouter.get('/qr', loginController.qr);
+
+loginRouter.get('/check', loginController.check);
+
+loginRouter.post('/', loginController.post)
+
 module.exports = loginRouter;
