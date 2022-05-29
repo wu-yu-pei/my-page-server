@@ -15,5 +15,7 @@ loginRouter.get('/userinfo', loginController.userInfo)
 loginRouter.post('/beifen', loginController.beifen)
 // 接受微信服务器信息接口
 loginRouter.post('/', loginController.post)
+// 获取聊天记录
+loginRouter.get('/cheat', loginController.cheat)
 
 module.exports = loginRouter;

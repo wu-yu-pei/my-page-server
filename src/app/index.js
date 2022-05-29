@@ -4,6 +4,10 @@ const static = require('koa-static');
 const koaBody = require('koa-body');
 const cors = require('koa-cors');
 const http = require('http');
+// database
+const sequelize = require('../database/index');
+// redis
+const redis = require('../database/redis')
 
 const app = new Koa();
 const server = http.createServer(app.callback());
@@ -16,18 +20,13 @@ const io = new Server(server, {
   }
 });
 
-// socket.io
 io.on('connect', (socket) => {
-  socket.on('message', (data) => {
+  socket.on('message', async (data) => {
+    await redis.rpush("mylist", JSON.stringify(data))
     socket.broadcast.emit("guangbo", data);
   })
 })
 
-// database
-const sequelize = require('../database/index');
-
-// redis
-const redis = require('../database/redis')
 
 // router
 const hiRouter = require('../router/hi.router');

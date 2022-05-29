@@ -1,3 +1,4 @@
+const redis = require('../database/redis');
 const loginService = require('../service/login.service');
 
 class registerController {
@@ -33,6 +34,14 @@ class registerController {
     const data = ctx.request.body
     const res = await loginService.beifen(data)
     ctx.body = res
+  }
+
+  async cheat(ctx, next) {
+    let res = await redis.lrange('mylist', 0, -1)
+
+    const result = res.map(item => JSON.parse(item))
+
+    ctx.body = result
   }
 }
 
