@@ -3,6 +3,6 @@ const hiRouter = new koaRouter();
 
 const hiController = require('../controller/hi.controller');
 
-hiRouter.get('/hi', hiController.hi);
+hiRouter.get('/', hiController.hi);
 
 module.exports = hiRouter;

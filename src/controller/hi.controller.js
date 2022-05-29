@@ -2,9 +2,8 @@ const hiService = require('../service/hi.service');
 
 class hiController {
   async hi(ctx, next) {
-    return (ctx.body = {
-      hi: hiService.hi(),
-    });
+    const res = await hiService.hi(ctx)
+    ctx.body = res
   }
 }
 

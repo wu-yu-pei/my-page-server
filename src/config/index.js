@@ -3,10 +3,10 @@ const PORT = 8888;
 // mysql
 const DB = 'my-page-dataBase';
 const USER = 'root';
-// const PASSWORD = '19781209Wyp';
-// const HOST = '8.141.63.127';
-const PASSWORD = '123456';
-const HOST = '127.0.0.1';
+const PASSWORD = '19781209Wyp';
+const HOST = '8.141.63.127';
+// const PASSWORD = '123456';
+// const HOST = '127.0.0.1';
 const DIALECT = 'mysql';
 const TOKEN = 'ABCDEFGHIJKLM';
 const APPID = 'wx231e6fc91ca26440';
