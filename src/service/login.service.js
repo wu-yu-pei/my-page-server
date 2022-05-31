@@ -97,7 +97,7 @@ class loginService {
       const user = {
         openId: userName,
         userImg: 'http://wuyupei.top:8888/upload/user.jpg',
-        userName: '微信用户' + userName.slice(0, 4)
+        userName: '微信用户' + userName.slice(-4)
       }
 
       const userConfig = {
