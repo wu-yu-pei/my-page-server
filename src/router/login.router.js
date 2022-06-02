@@ -17,5 +17,7 @@ loginRouter.post('/beifen', loginController.beifen)
 loginRouter.post('/', loginController.post)
 // 获取聊天记录
 loginRouter.get('/cheat', loginController.cheat)
+// 获取当前在线人数
+loginRouter.get('/usersnumber', loginController.usersnumber)
 
 module.exports = loginRouter;

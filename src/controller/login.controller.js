@@ -43,6 +43,13 @@ class registerController {
 
     ctx.body = result
   }
+
+  async usersnumber(ctx, next) {
+    let res = await redis.hlen('users')
+    ctx.body = {
+      data: res
+    }
+  }
 }
 
 module.exports = new registerController();
