@@ -9,6 +9,7 @@ specifiers:
   koa-bodyparser: ^4.3.0
   koa-cors: ^0.0.16
   koa-router: ^10.1.1
+  koa-sslify: ^5.0.0
   koa-static: ^5.0.0
   md5: ^2.3.0
   mysql2: ^2.3.3
@@ -27,6 +28,7 @@ dependencies:
   koa-bodyparser: 4.3.0
   koa-cors: 0.0.16
   koa-router: 10.1.1
+  koa-sslify: 5.0.0
   koa-static: 5.0.0
   md5: 2.3.0
   mysql2: 2.3.3
@@ -999,6 +1001,11 @@ packages:
       resolve-path: 1.4.0
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /koa-sslify/5.0.0:
+    resolution: {integrity: sha512-3Qc/DxPcH4BavYkt7xOVDFbaS7nR8oCozb/0dlIpLlyGVhFXcjHETWBwE3QrDLwjKOVJj6ykwRJoNzPT9QxCag==}
+    engines: {node: '>6.0.0'}
     dev: false
 
   /koa-static/5.0.0:
