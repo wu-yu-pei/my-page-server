@@ -28,7 +28,19 @@ jobs:
           node -v
           npm install -g pnpm
           pnpm install
-      # Deploy
+
+      # delete
+      - name: delete
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.ACCESS_TOKEN }}
+          port: 22
+          script: |
+            rm -rf /home/nodeServer/my-page-server
+
+      # copy
       - name: copy
         uses: easingthemes/ssh-deploy@main
         env:
@@ -39,6 +51,7 @@ jobs:
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: ${{ secrets.ACCESS_TARGET_PATH }}
 
+      #run
       - name: run
         uses: appleboy/ssh-action@master
         with:
@@ -47,6 +60,10 @@ jobs:
           key: ${{ secrets.ACCESS_TOKEN }}
           port: 22
           script: |
-            pwd
             pm2 ls
-            ls -al
+            pm2 stop index
+            pm2 stop delete index
+            cd /home/nodeServer/my-page-server
+            rm -rf my-page-server
+            pm2 start ./src/index.js
+            pm2 ls
