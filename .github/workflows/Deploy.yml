@@ -38,6 +38,7 @@ jobs:
           key: ${{ secrets.ACCESS_TOKEN }}
           port: 22
           script: |
+            cp /home/nodeServer/my-page-server/static/* /home/nodeServer/my-page-server/temp/static/*
             rm -rf /home/nodeServer/my-page-server
 
       # copy
@@ -50,6 +51,7 @@ jobs:
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: ${{ secrets.ACCESS_TARGET_PATH }}
+          EXCLUDE: "./static"
 
       #run
       - name: run
@@ -64,6 +66,9 @@ jobs:
             pm2 stop index
             pm2 delete index
             cd /home/nodeServer/my-page-server
-            rm -rf my-page-server
+            pwd
+            cp /home/nodeServer/my-page-server/temp/static/* /home/nodeServer/my-page-server/static
+            ls
+            rm -rf /home/nodeServer/my-page-server/temp
             pm2 start ./src/index.js
             pm2 ls
