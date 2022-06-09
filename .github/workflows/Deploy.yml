@@ -70,7 +70,7 @@ jobs:
             cd /home/nodeServer/my-page-server
             pwd
             ls
-            cp /home/nodeServer/temp -rf /home/nodeServer/my-page-server/static/
+            cp /home/nodeServer/temp -rf /home/nodeServer/my-page-server/static/upload
             rm -rf /home/nodeServer/temp
             pm2 start ./src/index.js
             pm2 ls
