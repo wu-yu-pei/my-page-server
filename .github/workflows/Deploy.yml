@@ -64,7 +64,9 @@ jobs:
           script: |
             pm2 ls
             pm2 stop index
-            pm2 delete index 
+            pm2 delete index
+            cd /home/nodeServer
+            ls
             cd /home/nodeServer/my-page-server
             pwd
             ls
