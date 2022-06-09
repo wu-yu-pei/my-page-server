@@ -38,7 +38,7 @@ jobs:
           key: ${{ secrets.ACCESS_TOKEN }}
           port: 22
           script: |
-            cp /home/nodeServer/my-page-server/static -rf /home/nodeServer/temp/static
+            cp /home/nodeServer/my-page-server/static -rf /home/nodeServer/temp
             rm -rf /home/nodeServer/my-page-server
 
       # copy
@@ -51,7 +51,7 @@ jobs:
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: ${{ secrets.ACCESS_TARGET_PATH }}
-          EXCLUDE: "/static/"
+          EXCLUDE: "/static/*"
 
       #run
       - name: run
@@ -70,7 +70,7 @@ jobs:
             cd /home/nodeServer/my-page-server
             pwd
             ls
-            cp /home/nodeServer/temp/static -rf /home/nodeServer/my-page-server
+            cp /home/nodeServer/temp -rf /home/nodeServer/my-page-server/static/
             rm -rf /home/nodeServer/temp
             pm2 start ./src/index.js
             pm2 ls
