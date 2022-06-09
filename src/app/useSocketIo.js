@@ -1,4 +1,5 @@
 const { Server } = require("socket.io");
+const redis = require('../database/redis')
 module.exports = function (server) {
   const io = new Server(server, {
     cors: {
