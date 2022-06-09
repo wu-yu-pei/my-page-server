@@ -51,7 +51,7 @@ jobs:
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: ${{ secrets.ACCESS_TARGET_PATH }}
-          EXCLUDE: "./static"
+          EXCLUDE: "/static/"
 
       #run
       - name: run
