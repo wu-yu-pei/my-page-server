@@ -15,8 +15,10 @@ const app = new Koa();
 
 // setup https
 const options = {
-  key: fs.readFileSync(path.resolve('./src/config/https/7892505_wuyupei.top.key')),
-  cert: fs.readFileSync('./src/config/https/7892505_wuyupei.top.pem'),
+  // key: fs.readFileSync(path.resolve('./src/config/https/7892505_wuyupei.top.key')),
+  // cert: fs.readFileSync('./src/config/https/7892505_wuyupei.top.pem'),
+  key: fs.readFileSync(path.join(__dirname, '../config/https/7892505_wuyupei.top.key')),
+  cert:fs.readFileSync(path.join(__dirname, '../config/https/7892505_wuyupei.top.pem')),
 };
 const server = https.createServer(options, app.callback());
 
