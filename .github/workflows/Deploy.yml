@@ -68,6 +68,7 @@ jobs:
             cd /home/nodeServer/my-page-server
             pwd
             ls
-            rm -rf /home/nodeServer/my-page-server/temp
+            cp /home/nodeServer/temp/static -rf /home/nodeServer/my-page-server
+            rm -rf /home/nodeServer/temp
             pm2 start ./src/index.js
             pm2 ls
