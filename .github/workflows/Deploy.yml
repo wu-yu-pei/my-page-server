@@ -38,7 +38,7 @@ jobs:
           key: ${{ secrets.ACCESS_TOKEN }}
           port: 22
           script: |
-            cp /home/nodeServer/my-page-server/static -rf /home/nodeServer/temp
+            cp /home/nodeServer/my-page-server/static/* -rf /home/nodeServer/temp
             rm -rf /home/nodeServer/my-page-server
 
       # copy
@@ -70,7 +70,7 @@ jobs:
             cd /home/nodeServer/my-page-server
             pwd
             ls
-            cp /home/nodeServer/temp -rf /home/nodeServer/my-page-server/static/upload
+            cp /home/nodeServer/temp/* -rf /home/nodeServer/my-page-server/static/upload
             rm -rf /home/nodeServer/temp
             pm2 start ./src/index.js
             pm2 ls

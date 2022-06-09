@@ -19,4 +19,4 @@ EXPOSE 8888
 
 CMD [ "pm2","start", "./src/index.js" ]
 
-RUN pm2 ls
+RUN pm2 ls 
