@@ -67,7 +67,6 @@ jobs:
             pm2 delete index
             cd /home/nodeServer/my-page-server
             pwd
-            cp /home/nodeServer/temp/static -rf /home/nodeServer/my-page-server/static
             ls
             rm -rf /home/nodeServer/my-page-server/temp
             pm2 start ./src/index.js
