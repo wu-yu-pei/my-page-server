@@ -67,7 +67,7 @@ jobs:
             pm2 delete index
             cd /home/nodeServer
             ls
-            cd /home/nodeServer/my-page-server
+            cd /home/nodeServer/my-page-server 
             pwd
             ls
             cp /home/nodeServer/temp/static -rf /home/nodeServer/my-page-server
