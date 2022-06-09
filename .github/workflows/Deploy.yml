@@ -43,7 +43,7 @@ jobs:
 
       # copy
       - name: copy
-        uses: easingthemes/ssh-deploy@main 
+        uses: easingthemes/ssh-deploy@main
         env:
           SSH_PRIVATE_KEY: ${{ secrets.ACCESS_TOKEN }}
           # #ARGS: "-avz --delete"
@@ -70,6 +70,7 @@ jobs:
             cd /home/nodeServer/my-page-server
             pwd
             ls
+            mkdir /home/nodeServer/my-page-server/static/upload
             cp /home/nodeServer/temp/* -rf /home/nodeServer/my-page-server/static/upload/
             rm -rf /home/nodeServer/temp
             pm2 start ./src/index.js
