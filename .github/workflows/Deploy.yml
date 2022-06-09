@@ -15,7 +15,7 @@ jobs:
   cp:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    name: cp
+    name: install
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -25,11 +25,11 @@ jobs:
       #Runs a single command using the runners shell
       - name: install
         run: |
-            node -v
-            npm install -g pnpm
-            pnpm install
+          node -v
+          npm install -g pnpm
+          pnpm install
       # Deploy
-      - name: Deploy
+      - name: copy
         uses: easingthemes/ssh-deploy@main
         env:
           SSH_PRIVATE_KEY: ${{ secrets.ACCESS_TOKEN }}
@@ -38,5 +38,15 @@ jobs:
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: ${{ secrets.ACCESS_TARGET_PATH }}
-          SCRIPT: |
-            rm -rf aaa
+
+      - name: run
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.ACCESS_TOKEN }}
+          port: 22
+          script: |
+            pwd
+            pm2 ls
+            ls -al
