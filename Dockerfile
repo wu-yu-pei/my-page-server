@@ -17,6 +17,6 @@ RUN pnpm install
 
 EXPOSE 8888
 
-CMD [ "pm2","start", "./src/app/index.js" ]
+CMD [ "pm2","start", "./src/index.js" ]
 
 RUN pm2 ls
