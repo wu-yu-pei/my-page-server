@@ -38,7 +38,7 @@ jobs:
           key: ${{ secrets.ACCESS_TOKEN }}
           port: 22
           script: |
-            cp /home/nodeServer/my-page-server/static/* /home/nodeServer/my-page-server/temp/static/*
+            cp /home/nodeServer/my-page-server/static/* -rf /home/nodeServer/my-page-server/temp/static/*
             rm -rf /home/nodeServer/my-page-server
 
       # copy
