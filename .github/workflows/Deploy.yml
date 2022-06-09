@@ -39,4 +39,5 @@ jobs:
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: ${{ secrets.ACCESS_TARGET_PATH }}
           SCRIPT: |
+            docker images
             pm2 ls
