@@ -6,12 +6,6 @@ module.exports = function (app) {
   const regesterRouter = require('../router/register.router');
   const loginRouter = require('../router/login.router');
 
-  // 设置全局路径
-  hiRouter.prefix('/api/mypage')
-  uploadRouter.prefix('/api/mypage')
-  keyWordRouter.prefix('/api/mypage')
-  regesterRouter.prefix('/api/mypage')
-  loginRouter.prefix('/api/mypage')
 
   // use router
   app.use(hiRouter.routes());
