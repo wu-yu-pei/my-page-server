@@ -21,7 +21,7 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
-      # 下面这一步不需要了,以为已经cp好了
+      # install
       #Runs a single command using the runners shell
       - name: install
         run: |
@@ -74,4 +74,4 @@ jobs:
             cp /home/nodeServer/temp/* -rf /home/nodeServer/my-page-server/static/upload/
             rm -rf /home/nodeServer/temp
             pm2 start ./src/index.js
-            pm2 ls 
+            pm2 ls
