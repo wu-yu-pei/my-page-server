@@ -165,6 +165,18 @@ class loginService {
     })
     return res
   }
+
+  async changeImg(userid, url) {
+    console.log(userid, url);
+    let res = await User.update({
+      'userImg': url
+    }, {
+      where: {
+        openId: userid
+      }
+    })
+    return res
+  }
 }
 
 module.exports = new loginService();

@@ -19,5 +19,7 @@ loginRouter.post('/', loginController.post)
 loginRouter.get('/cheat', loginController.cheat)
 // 获取当前在线人数
 loginRouter.get('/usersnumber', loginController.usersnumber)
+// 修改图像
+loginRouter.post('/changeUserImg', loginController.changeImg)
 
 module.exports = loginRouter;

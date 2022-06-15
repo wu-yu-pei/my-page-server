@@ -50,6 +50,13 @@ class registerController {
       data: res
     }
   }
+
+  async changeImg(ctx, next) {
+    const { userid, url } = ctx.request.body
+    const res = await loginService.changeImg(userid, url)
+    console.log(res);
+    ctx.body = res
+  }
 }
 
 module.exports = new registerController();
