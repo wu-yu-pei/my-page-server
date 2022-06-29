@@ -16,7 +16,7 @@ module.exports = function (server) {
 
       socket.on('location', (res) => {
         console.log(res);
-        socket.to(room).emit('location', {  res })
+        socket.to(room).emit('location', res)
       })
     } else {
       // 标识
