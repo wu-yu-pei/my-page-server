@@ -14,23 +14,23 @@ module.exports = function (server) {
       const room = socket.handshake.query.auth
       const type = socket.handshake.query.type
 
-      if(type == 'creater') {
+      if (type == 'creater') {
         socket.join(room)
-      }else if(type == 'joiner') {
-        if(await redis.hget('rooms', room)) {
+      } else if (type == 'joiner') {
+        if (await redis.hget('rooms', room)) {
           socket.join(room)
-          io.to(room).emit('location',await redis.hget('rooms', room))
-        }else {
-          socket.emit('no-exit', {code:500, msg:'房间不存在'})
+          io.to(room).emit('location', await redis.hget('rooms', room))
+        } else {
+          socket.emit('no-exit', { code: 500, msg: '房间不存在' })
         }
       }
 
-      socket.on('location',async (res) => {
+      socket.on('location', async (res) => {
 
-        if(res.type != 'creater') return
-        // 把房主设置进redis里面
-        await redis.hset('rooms',{ [room]: JSON.stringify(res) })
-
+        if (res.type == 'creater') {
+          // 把房主设置进redis里面
+          await redis.hset('rooms', { [room]: JSON.stringify(res) })
+        }
         socket.to(room).emit('location', res)
       })
     } else {
