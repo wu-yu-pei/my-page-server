@@ -21,7 +21,7 @@ module.exports = function (server) {
           socket.join(room)
           io.to(room).emit('location', await redis.hget('rooms', room))
         } else {
-          socket.emit('no-exit', { code: 500, msg: '房间不存在' })
+          socket.emit('room-no-exit', { code: 500, msg: '房间不存在' })
         }
       }
 
