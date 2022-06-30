@@ -9,16 +9,32 @@ module.exports = function (server) {
   });
 
   io.on('connect', async (socket) => {
+    // 微信小程序 map
     if (socket.handshake.query.auth) {
       const room = socket.handshake.query.auth
-      console.log('connect.....');
-      socket.join(room)
+      const type = socket.handshake.query.type
 
-      socket.on('location', (res) => {
-        console.log(res);
+      if(type == 'creater') {
+        socket.join(room)
+      }else if(type == 'joiner') {
+        if(await redis.hget('rooms', room)) {
+          socket.join(room)
+          io.to(room).emit('location',await redis.hget('rooms', room))
+        }else {
+          socket.emit('no-exit', {code:500, msg:'房间不存在'})
+        }
+      }
+
+      socket.on('location',async (res) => {
+
+        if(res.type != 'creater') return
+        // 把房主设置进redis里面
+        await redis.hset('rooms',{ [room]: JSON.stringify(res) })
+
         socket.to(room).emit('location', res)
       })
     } else {
+      // my-page chat
       // 标识
       const name = Math.random()
       socket.name = name
