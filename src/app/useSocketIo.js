@@ -33,6 +33,17 @@ module.exports = function (server) {
         }
         socket.to(room).emit('location', res)
       })
+
+      socket.on('disconnect', async (reason) => {
+        console.log('断开连接了---->', reason)
+
+        if (type == 'creater') {
+          await redis.hdel('rooms', room)
+          socket.to(room).emit('homeowner-disconnect', { code: 201, msg: '房主已销毁房间' })
+        }else if(type == 'joiner') {
+          
+        }
+      })
     } else {
       // my-page chat
       // 标识
