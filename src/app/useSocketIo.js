@@ -39,9 +39,9 @@ module.exports = function (server) {
 
         if (type == 'creater') {
           await redis.hdel('rooms', room)
-          socket.to(room).emit('homeowner-disconnect', { code: 201, msg: '房主已销毁房间' })
+          socket.to(room).emit('homeowner-disconnect', { code: 201, msg: '房主已销毁房间!' })
         }else if(type == 'joiner') {
-          
+          socket.to(room).emit('joner-disconnect', {code: 201, msg:'joner退出房间'})
         }
       })
     } else {
