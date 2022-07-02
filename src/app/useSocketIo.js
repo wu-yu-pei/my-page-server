@@ -13,6 +13,7 @@ module.exports = function (server) {
     if (socket.handshake.query.auth) {
       const room = socket.handshake.query.auth
       const type = socket.handshake.query.type
+      const id = socket.handshake.query.id
 
       if (type == 'creater') {
         socket.join(room)
@@ -41,7 +42,7 @@ module.exports = function (server) {
           await redis.hdel('rooms', room)
           socket.to(room).emit('homeowner-disconnect', { code: 201, msg: '房主已销毁房间!' })
         }else if(type == 'joiner') {
-          socket.to(room).emit('joner-disconnect', {code: 201, msg:'joner退出房间'})
+          socket.to(room).emit('joner-disconnect', {code: 201, msg:'joner退出房间', id})
         }
       })
     } else {
